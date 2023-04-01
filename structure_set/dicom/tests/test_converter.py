@@ -18,8 +18,9 @@ class TestStructureSet(unittest.TestCase):
     def test_parse_rtstruct(self):
         dicom_image = StructureSet.parse_dicom_image(self.dicom_image)
         ss = StructureSet(reference_image=dicom_image)
-        ss.load_dicom_rtstruct(self.rtstruct)
-        for label, mask in ss.structures.items():
+        ss.from_dicom_rtstruct(self.rtstruct)
+        for label in ss.list_structure_names():
+            mask = ss.get_structure(label)
             for file in os.listdir(self.nifti_folder):
                 if label in file:
                     other_mask = sitk.ReadImage(os.path.join(self.nifti_folder, file))

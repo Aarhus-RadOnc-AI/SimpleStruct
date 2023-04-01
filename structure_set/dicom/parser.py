@@ -1,7 +1,6 @@
 import logging
 import traceback
 from typing import List, NewType
-
 import pydicom
 from pydicom.errors import InvalidDicomError
 import pydantic

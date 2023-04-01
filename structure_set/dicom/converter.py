@@ -6,7 +6,7 @@ import numpy as np
 from numba import njit
 from skimage import draw
 
-from . import parser, utils
+from structure_set.dicom import parser, misc
 
 
 def _get_transform_matrix(spacing: Tuple, direction: Tuple):
@@ -87,7 +87,7 @@ def convert(contour: parser.Contour,
             crop_masks: bool,
             dicom_image: sitk.Image) -> sitk.Image:
 
-    spacing = utils.scale_information_tuple(information_tuple=dicom_image.GetSpacing(),
+    spacing = misc.scale_information_tuple(information_tuple=dicom_image.GetSpacing(),
                                             xy_scaling_factor=xy_scaling_factor,
                                             up=False,
                                             out_type=float)
@@ -131,7 +131,7 @@ def convert(contour: parser.Contour,
     # If not crop, then resample to align with the original dicom image.
     if not crop_masks:
         mask = sitk.Resample(mask,
-                             utils.scale_information_tuple(dicom_image.GetSize(),
+                             misc.scale_information_tuple(dicom_image.GetSize(),
                                                            xy_scaling_factor=xy_scaling_factor,
                                                            out_type=int,
                                                            up=True),

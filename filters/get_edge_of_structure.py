@@ -3,13 +3,16 @@ from numba import njit
 import SimpleITK as sitk
 
 @njit
-def get_edge_of_contour(contour: sitk.Image) -> sitk.Image:
+def get_edge_of_structure(structure: sitk.Image, label_int: int =1) -> sitk.Image:
     """
     Mask must only contain 0 for background and 1 for mask.
     :param mask:
     :return:
     """
-    mask = sitk.GetArrayFromImage(contour).astype(bool)
+
+    mask = sitk.GetArrayFromImage(structure)
+    mask = (mask == label_int)
+
     edge = np.zeros_like(mask)
     for z in range(0, mask.shape[0]):
         for y in range(0, mask.shape[1]):
@@ -18,6 +21,6 @@ def get_edge_of_contour(contour: sitk.Image) -> sitk.Image:
                 if sum < 9:
                     edge[z, y, x] = mask[z, y, x]
     edge = sitk.GetImageFromArray(edge)
-    edge.CopyInformation(contour)
+    edge.CopyInformation(structure)
     return edge
 
