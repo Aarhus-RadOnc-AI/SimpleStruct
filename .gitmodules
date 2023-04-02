@@ -1,0 +1,4 @@
+[submodule "dependencies/pyplastimatch"]
+	path = dependencies/pyplastimatch
+	url = git@github.com:mathiser/pyplastimatch.git
+	branch = SimpleStruct
