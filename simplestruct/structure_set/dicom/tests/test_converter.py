@@ -1,9 +1,10 @@
 import os
 import unittest
-from structure_set.structure_set import StructureSet
+from simplestruct.structure_set.structure_set import StructureSet
 import SimpleITK as sitk
-from metrics import overlap
-import numpy as np
+from simplestruct.metrics import overlap
+
+
 class TestStructureSet(unittest.TestCase):
     def setUp(self) -> None:
         self.nifti_image = "test_data/HN1004_20190403_CT/scans/1_3_6_1_4_1_40744_29_33371661027192187491509798061184654147-unknown/resources/NIFTI/files/image.nii.gz"

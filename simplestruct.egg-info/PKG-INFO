@@ -1,0 +1,7 @@
+Metadata-Version: 2.1
+Name: simplestruct
+Version: 1
+Summary: Toolbox for structures
+Author: Mathis Rasmussen
+Author-email: mathis.rasmussen@rm.dk
+Requires-Python: >=3.10

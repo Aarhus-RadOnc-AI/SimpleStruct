@@ -4,12 +4,18 @@ from typing import Dict, Union, List
 import SimpleITK as sitk
 import numpy as np
 
-from structure_set.dicom import parser, converter, misc
+from simplestruct.structure_set.dicom import parser, converter, misc
 
 
 class StructureSet:
-    def __init__(self, reference_image: sitk.Image):
-        self.reference_image: sitk.Image = reference_image
+    def __init__(self, reference_image: Union[sitk.Image, str]):
+        if isinstance(reference_image, str):
+            if os.path.isdir(reference_image):
+                self.reference_image = self.parse_dicom_image(reference_image)
+            else:
+                self.reference_image = sitk.ReadImage(reference_image)
+        else:
+            self.reference_image: sitk.Image = reference_image
 
         self._rtstruct_contours: Union[Dict[str, Union[parser.Contour, str]]] = {}
         self._xy_scaling_factor: int = 1
@@ -36,11 +42,11 @@ class StructureSet:
     def parse_dicom_image(path):
         return misc.parse_dicom_image(path)
 
-    def to_folder(self, path: str):
+    def save_to_folder(self, path: str):
         for label in self.list_structure_names():
             sitk.WriteImage(self.get_structure(label), os.path.join(path, label + ".nii.gz"))
 
-    def from_folder(self, path: str):
+    def load_folder(self, path: str):
         for fol, subs, files in os.walk(path, followlinks=True):
             for file in files:
                 if file.endswith(".nii.gz"):
