@@ -1,9 +1,10 @@
 import unittest
+
 import SimpleITK as sitk
 
 from simplestruct.metrics.distance.hd import HD
-from simplestruct.single_filters.get_edge_of_structure import get_edge_of_structure
-import numpy as np
+
+
 class TestHd(unittest.TestCase):
     def setUp(self) -> None:
         self.reference_path = "test_data/HN1004_20190403_CT/scans/1-unknown/resources/NIFTI/files/mask_Spinal-Cord.nii.gz"
@@ -16,23 +17,18 @@ class TestHd(unittest.TestCase):
 
         #self.distance_arr = get_distance_matrix(self.ref, self.other, tuple(reversed(self.ref_img.GetSpacing())))
 
-    def test_init_HD(self):
+    # def test_init_HD(self):
+    #     hd = HD(self.ref_img, self.other_img, label_int=(255, 1))
+
+    def test_hd(self):
+        f = sitk.HausdorffDistanceImageFilter()
+        f.Execute(self.ref_img, self.other_img)
+        ref_hd = f.GetHausdorffDistance()
+
+        print(1, ref_hd)
         hd = HD(self.ref_img, self.other_img, label_int=(255, 1))
-        hd.set_distance_matrix()
-        print(hd.distance_matrix)
+        self.assertEqual(ref_hd, hd.max_min_hd())
 
-
-    # def test_hd(self):
-    #     f = sitk.HausdorffDistanceImageFilter()
-    #     f.Execute(self.ref_img, self.other_img)
-    #     ref_hd = f.GetHausdorffDistance()
-    #     print(ref_hd)
-    #
-    #     arr = get_distance_matrix(self.ref, self.other, tuple(reversed(self.ref_img.GetSpacing())))
-    #     other_hd = arr.min(axis=1).max()
-    #     print(other_hd)
-    #     self.assertEqual(ref_hd, other_hd)
-
-
+        # print(4, hd.avg_avg_hd())
 if __name__ == '__main__':
     unittest.main()
