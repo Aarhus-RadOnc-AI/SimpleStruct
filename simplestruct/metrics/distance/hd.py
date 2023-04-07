@@ -25,38 +25,49 @@ class HD:
         self.other_arr = get_edge_of_structure(sitk.GetArrayFromImage(self.other_img), label_int[1])
         self.spacing_arr = np.array(self.ref_img.GetSpacing())[-1::-1]
 
-        self.distance_matrix_directed = None
-        self.distance_matrix_undirected = None
+        self.distance_matrix_ref_to_other = None
+        self.distance_matrix_other_to_ref = None
 
-    def calculate_distance_matrix_directed(self):
-        ref_coords = np.argwhere(self.ref_arr)
-        other_coords = np.argwhere(self.other_arr)
-
-        self.distance_matrix_directed = np.zeros((ref_coords.shape[0]))
-        for i, coord in enumerate(other_coords):
-            self.distance_matrix_directed[i] = find_distance_for_coord(coord=coord,
-                                                                         other_coords=ref_coords,
-                                                                         spacing_array=self.spacing_arr)
-
-    def calculate_distance_matrix_undirected(self):
-        ref_coords = np.argwhere(self.ref_arr)
-        other_coords = np.argwhere(self.other_arr)
-
-        self.distance_matrix_undirected = np.zeros((ref_coords.shape[0]))
+    def _calculate_distance_matrix(self, reference: np.ndarray, other: np.ndarray) -> np.ndarray:
+        """
+        This function gives the directed distance from reference to other contour.
+        :return:
+        """
+        ref_coords = np.argwhere(reference)
+        other_coords = np.argwhere(other)
+        print(ref_coords.shape)
+        distance_matrix = np.empty((4, ref_coords.shape[0]))  # columns are Z, Y, X, hausdorff distance for this point
+        distance_matrix[:3, :] = ref_coords.T
         for i, coord in enumerate(ref_coords):
-            self.distance_matrix_undirected[i] = find_distance_for_coord(coord=coord,
-                                                                       other_coords=other_coords,
-                                                                       spacing_array=self.spacing_arr)
+            distance_matrix[3, i] = find_distance_for_coord(coord=coord,
+                                                            other_coords=other_coords,
+                                                            spacing_array=self.spacing_arr)
 
-    def calculate_distance_matrices(self, undirected=True):
-        if self.distance_matrix_directed is None:
-            self.calculate_distance_matrix_directed()
-        if undirected and self.distance_matrix_undirected is None:
-            self.calculate_distance_matrix_undirected()
+        return distance_matrix
 
-    def max_min_hd(self, undirected=True):
-        self.calculate_distance_matrices(undirected)
+    def _generate_distance_matrices(self, undirected=True):
+        if self.distance_matrix_ref_to_other is None:
+            self.distance_matrix_ref_to_other = self._calculate_distance_matrix(self.ref_arr, self.other_arr)
+        if undirected and self.distance_matrix_other_to_ref is None:
+            self.distance_matrix_other_to_ref = self._calculate_distance_matrix(self.other_arr, self.ref_arr)
+
+    def get_distances(self, undirected=True):
+        self._generate_distance_matrices(undirected=undirected)
         if undirected:
-            return np.max(np.array([np.max(self.distance_matrix_directed), np.max(self.distance_matrix_undirected)]))
+            return np.concatenate([self.distance_matrix_ref_to_other[3, :], self.distance_matrix_other_to_ref[3, :]],
+                                  axis=1)
         else:
-            return np.max(self.distance_matrix_directed)
+            return self.distance_matrix_ref_to_other[3, :]
+
+    def func_on_min_distances(self, func=np.max, undirected=True):
+        return func(self.get_distances(undirected))
+
+    def get_max_min_hd(self, undirected=True):
+        return self.func_on_min_distances(func=np.max, undirected=undirected)
+
+    def get_avg_min_hd(self, undirected=True):
+        return self.func_on_min_distances(func=np.mean, undirected=undirected)
+
+    def get_percentile_min_hd(self, percentile=0.95, undirected=True):
+        arr = self.func_on_min_distances(np.sort, undirected=undirected)
+        return arr[int(arr.shape[0] * percentile)]
