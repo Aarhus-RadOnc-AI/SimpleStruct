@@ -1,17 +1,23 @@
-import logging
-
 import SimpleITK as sitk
 import numpy as np
-from numba import njit
 
 from simplestruct.single_filters.get_edge_of_structure import get_edge_of_structure
 
 
 def find_distance_for_coord(coord, other_coords, spacing_array):
-    vectors = other_coords - coord
-    vectors = np.multiply(vectors, spacing_array)
+    vectors = np.zeros_like(other_coords, dtype=float)
+    vectors[:, 0] = other_coords[:, 0] - coord[0]
+    vectors[:, 1] = other_coords[:, 1] - coord[1]
+    vectors[:, 2] = other_coords[:, 2] - coord[2]
+
+    vectors[:, 0] = vectors[:, 0] * spacing_array[0]
+    vectors[:, 1] = vectors[:, 1] * spacing_array[1]
+    vectors[:, 2] = vectors[:, 2] * spacing_array[2]
+
     vectors = np.power(vectors, 2)
+
     vectors = np.sum(vectors, axis=1)
+
     vector_lengths = np.sqrt(vectors)
     coord_hd = np.min(vector_lengths)
     return coord_hd
@@ -35,11 +41,11 @@ class HD:
         """
         ref_coords = np.argwhere(reference)
         other_coords = np.argwhere(other)
-        print(ref_coords.shape)
-        distance_matrix = np.empty((4, ref_coords.shape[0]))  # columns are Z, Y, X, hausdorff distance for this point
-        distance_matrix[:3, :] = ref_coords.T
-        for i, coord in enumerate(ref_coords):
-            distance_matrix[3, i] = find_distance_for_coord(coord=coord,
+
+        distance_matrix = np.empty((ref_coords.shape[0], 4))  # columns are Z, Y, X, hausdorff distance for this point
+        distance_matrix[:, :3] = ref_coords
+        for i in range(0, ref_coords.shape[0]):
+            distance_matrix[i, 3] = find_distance_for_coord(coord=ref_coords[i, :],
                                                             other_coords=other_coords,
                                                             spacing_array=self.spacing_arr)
 
@@ -54,12 +60,15 @@ class HD:
     def get_distances(self, undirected=True):
         self._generate_distance_matrices(undirected=undirected)
         if undirected:
-            return np.concatenate([self.distance_matrix_ref_to_other[3, :], self.distance_matrix_other_to_ref[3, :]],
-                                  axis=1)
+            return np.concatenate([self.distance_matrix_ref_to_other[:, 3], self.distance_matrix_other_to_ref[:, 3]])
         else:
-            return self.distance_matrix_ref_to_other[3, :]
+            return self.distance_matrix_ref_to_other[:, 3]
 
-    def func_on_min_distances(self, func=np.max, undirected=True):
+    def get_distance_matrix_ref_to_other(self):
+        self._generate_distance_matrices(undirected=False)
+        return self.distance_matrix_ref_to_other
+
+    def func_on_min_distances(self, func, undirected=True):
         return func(self.get_distances(undirected))
 
     def get_max_min_hd(self, undirected=True):

@@ -1,3 +1,5 @@
+LICENSE
+README.md
 setup.py
 simplestruct/__init__.py
 simplestruct.egg-info/PKG-INFO
@@ -8,11 +10,9 @@ simplestruct.egg-info/top_level.txt
 simplestruct/metrics/__init__.py
 simplestruct/metrics/distance/__init__.py
 simplestruct/metrics/distance/hd.py
-simplestruct/metrics/distance/plastimatch_hd.py
-simplestruct/metrics/distance/tests/__init__.py
-simplestruct/metrics/distance/tests/test_hd.py
 simplestruct/metrics/exotic/__init__.py
 simplestruct/metrics/exotic/added_path_length.py
+simplestruct/metrics/exotic/surface_dice.py
 simplestruct/metrics/overlap/__init__.py
 simplestruct/metrics/overlap/dice.py
 simplestruct/multi_filters/__init__.py
