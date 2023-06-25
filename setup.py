@@ -7,7 +7,7 @@ setup(
     author='Mathis Rasmussen',
     author_email='mathis.rasmussen@rm.dk',
     url='https://github.com/mathiser/SimpleStruct',
-    python_requires=">=3.8",
+    python_requires=">=3.9",
     packages=find_namespace_packages(include=["simplestruct", "simplestruct.*"]),
     install_requires=[
         "pydantic>=1.10.7",
