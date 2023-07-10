@@ -39,7 +39,6 @@ class Structure(pydantic.BaseModel):
     def vertices(self):
         seqs = []
         for i, seq in enumerate(self.sequences):
-            print(seq.vertices)
             seqs.append(np.insert(seq.vertices, 0, i, axis=1))
 
         return np.concatenate(seqs)
@@ -86,7 +85,9 @@ class StructureSet(pydantic.BaseModel):
     def _load_rtstruct(self):
         rtstructs = RtStructInputAdapter().ingest(input_file=self.rtstruct_file)
         for rtstruct in rtstructs:
-            # seq = Sequence(type)
+            # Fill empty spaces
+            if not rtstruct["sequence"]:
+                rtstruct["sequence"] = []
             if rtstruct["name"] not in self.structures.keys():
                 struct = Structure(name=rtstruct["name"],
                                    roi_number=rtstruct["roi_number"],
