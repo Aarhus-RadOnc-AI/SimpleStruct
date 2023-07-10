@@ -1,4 +1,7 @@
-[submodule "dependencies/pyplastimatch"]
-	path = dependencies/pyplastimatch
-	url = git@github.com:mathiser/pyplastimatch.git
-	branch = SimpleStruct
+[submodule "dependencies/dcmrtstruct2nii"]
+	path = dependencies/dcmrtstruct2nii
+	url = git@github.com:Aarhus-RadOnc-AI/dcmrtstruct2nii.git
+
+[submodule "dependencies/rt-utils"]
+	path = dependencies/dcmrtstruct2nii
+	url = git@github.com:mathiser/rt-utils.git
