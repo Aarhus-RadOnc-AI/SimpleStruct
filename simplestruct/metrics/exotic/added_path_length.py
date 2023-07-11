@@ -1,5 +1,5 @@
 import numpy as np
-from simplestruct.single_filters.get_edge_of_structure import get_edge_of_structure
+from simplestruct.single_filters.edge_generator import get_edge_of_structure
 import SimpleITK as sitk
 
 def calculate_added_path_length(reference_structure: sitk.Image, other_structure: sitk.Image):

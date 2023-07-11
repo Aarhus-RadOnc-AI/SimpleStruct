@@ -8,6 +8,7 @@ class HausdorffMap:
         self.reference_structure = reference_structure
         self.other_contours = other_contours
         self.hausdorff_map = None
+
     def _generate_structure_hausdorff_map(self):
         """
         Returns a np.ndarray, where columns are Z, Y, X coordinates in index 0:3 and 3: is the HD for the given coordinate

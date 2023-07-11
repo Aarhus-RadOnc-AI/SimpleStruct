@@ -1,11 +1,12 @@
 import SimpleITK as sitk
 import numpy as np
+from numba import vectorize, njit
 
-from simplestruct.single_filters.get_edge_of_structure import get_edge_of_structure
+from simplestruct.single_filters.edge_generator import get_edge_of_structure
 
-
-def find_distance_for_coord(coord, other_coords, spacing_array):
-    vectors = np.zeros_like(other_coords, dtype=float)
+@njit
+def find_distance_for_coord(coord: np.ndarray, other_coords: np.ndarray, spacing_array: np.ndarray):
+    vectors = np.zeros(other_coords.shape, dtype=float)
     vectors[:, 0] = other_coords[:, 0] - coord[0]
     vectors[:, 1] = other_coords[:, 1] - coord[1]
     vectors[:, 2] = other_coords[:, 2] - coord[2]
@@ -14,12 +15,13 @@ def find_distance_for_coord(coord, other_coords, spacing_array):
     vectors[:, 1] = vectors[:, 1] * spacing_array[1]
     vectors[:, 2] = vectors[:, 2] * spacing_array[2]
 
+    # Euclidian length
     vectors = np.power(vectors, 2)
-
     vectors = np.sum(vectors, axis=1)
-
     vector_lengths = np.sqrt(vectors)
+
     coord_hd = np.min(vector_lengths)
+
     return coord_hd
 
 
