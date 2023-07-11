@@ -1,13 +1,14 @@
 from setuptools import setup, find_namespace_packages
 
 setup(
-    name='simplestruct',
+    name='SimpleStruct',
     version='1',
     description='Toolbox for structures',
     author='Mathis Rasmussen',
     author_email='mathis.rasmussen@rm.dk',
     url='https://github.com/mathiser/SimpleStruct',
-    python_requires=">=3.9",
+    python_requires=">=3.8",
+    package_dir={'':"simplestruct"},
     packages=find_namespace_packages(include=["simplestruct", "simplestruct.*"]),
     install_requires=[
         "pydantic>=1.10.7",
