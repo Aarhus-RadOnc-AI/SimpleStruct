@@ -1,0 +1,32 @@
+[project]
+name = "simplestruct"
+version = "0.1"
+requires-python = ">=3.8"
+description = "Working with segmentations"
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [
+    { name = "Mathis Rasmussen", email = "mathis.rasmussen@rm.dk"},
+    { name = "DCPT" }
+]
+classifiers = []
+keywords = []
+dependencies = [
+"pydantic>=1.10.7",
+"simpleitk>=2.2.1",
+"numpy>=1.23.5",
+"pydicom>=2.3.1",
+"numba>=0.56.4",
+"scikit-image>=0.2.0",
+        "rt-utils @ git+https://github.com/mathiser/rt-utils@ForkMaster",
+    "dcmrtstruct2nii @ git+https://github.com/Aarhus-RadOnc-AI/dcmrtstruct2nii@ForkMaster"
+]
+
+[project.urls]
+homepage = "https://github.com/Aarhus-RadOnc-AI/SimpleStruct"
+repository = "https://github.com/Aarhus-RadOnc-AI/SimpleStruct"
+
+[build-system]
+requires = [
+    "setuptools @ git+https://github.com/pypa/setuptools.git@main",
+]

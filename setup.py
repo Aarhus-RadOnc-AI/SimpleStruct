@@ -1,21 +1,5 @@
-from setuptools import setup, find_namespace_packages
+import setuptools
 
-setup(
-    name='SimpleStruct',
-    version='1',
-    description='Toolbox for structures',
-    author='Mathis Rasmussen',
-    author_email='mathis.rasmussen@rm.dk',
-    url='https://github.com/mathiser/SimpleStruct',
-    python_requires=">=3.8",
-    package_dir={'':"simplestruct"},
-    packages=find_namespace_packages(include=["simplestruct", "simplestruct.*"]),
-    install_requires=[
-        "pydantic>=1.10.7",
-        "simpleitk>=2.2.1",
-        "numpy>=1.23.5",
-        "pydicom>=2.3.1",
-        "numba>=0.56.4",
-        "scikit-image>=0.2.0"
-    ]
-)
+if __name__ == "__main__":
+    setuptools.setup()
+

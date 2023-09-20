@@ -1,4 +1,4 @@
-from simplestruct.metrics.distance.hd import HD
+from simplestruct.metrics.hd import HD
 import SimpleITK as sitk
 from typing import List
 import numpy as np
