@@ -2,7 +2,7 @@ import unittest
 
 import SimpleITK as sitk
 
-from simplestruct.metrics.distance.hd import HD
+from simplestruct.metrics.hd import HD
 
 
 class TestHd(unittest.TestCase):

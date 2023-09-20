@@ -1,10 +1,9 @@
 import SimpleITK as sitk
-import numba as nb
 import numpy as np
 from numba import njit, prange
 
-from simplestruct.metrics.distance.hd import find_distance_for_coord
-from simplestruct.single_filters import get_edge_of_structure
+from simplestruct.metrics.hd import find_distance_for_coord
+from simplestruct.filters.edge_generator import get_edge_of_structure
 
 
 def get_spacing_as_np_array(structure: sitk.Image):

@@ -2,7 +2,7 @@ from typing import Tuple
 
 import numpy as np
 
-from simplestruct.metrics.distance.hd import HD
+from simplestruct.metrics.hd import HD
 import SimpleITK as sitk
 
 

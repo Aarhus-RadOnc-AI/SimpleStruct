@@ -1,7 +1,6 @@
 import numpy as np
 from numba import njit
-import SimpleITK as sitk
-from typing import Union
+
 
 @njit
 def get_edge_of_structure(structure: np.ndarray, label_int: int = 1, use_3d: bool = False) -> np.ndarray:

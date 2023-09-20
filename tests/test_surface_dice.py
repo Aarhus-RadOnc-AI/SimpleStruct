@@ -2,8 +2,7 @@ import unittest
 
 import SimpleITK as sitk
 
-from simplestruct.metrics.distance.hd import HD
-from simplestruct.metrics.exotic.surface_dice import SurfaceDice
+from simplestruct.metrics.surface_dice import SurfaceDice
 
 
 class TestSurfaceDice(unittest.TestCase):

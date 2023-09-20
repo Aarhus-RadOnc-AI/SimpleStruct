@@ -1,8 +1,8 @@
 import SimpleITK as sitk
 import numpy as np
-from numba import vectorize, njit
+from numba import njit
 
-from simplestruct.single_filters.edge_generator import get_edge_of_structure
+from simplestruct.filters.edge_generator import get_edge_of_structure
 
 @njit
 def find_distance_for_coord(coord: np.ndarray, other_coords: np.ndarray, spacing_array: np.ndarray):

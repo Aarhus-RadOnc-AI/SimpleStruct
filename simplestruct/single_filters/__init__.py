@@ -1,1 +1,0 @@
-from .edge_generator import get_edge_of_structure

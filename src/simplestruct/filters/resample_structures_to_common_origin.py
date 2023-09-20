@@ -48,7 +48,7 @@ def get_extreme_origin_and_size_of_structures(structures: List[sitk.Image], labe
     return tuple([float(o) for o in min_origin]), tuple([int(s) for s in shape])
 
 
-def resample_structure_to_origin_and_shape(contour, origin, shape):
+def resample_structure_to_origin_and_shape(contour: sitk.Image, origin: Tuple, shape: Tuple):
     res_img = sitk.Resample(contour,
                             shape,
                             sitk.Transform(),
