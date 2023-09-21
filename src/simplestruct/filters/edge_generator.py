@@ -3,7 +3,7 @@ from numba import njit
 
 
 @njit
-def get_edge_of_structure(structure: np.ndarray, label_int: int = 1, use_3d: bool = False) -> np.ndarray:
+def generate_edge_of_structure(structure: np.ndarray, label_int: int = 1, use_3d: bool = False) -> np.ndarray:
     """
     Mask must only contain 0 for background and 1 for mask. Array must be ordered [z, y, x]
     Input structure must be in np.ndarray, else njit won't work.

@@ -3,7 +3,7 @@ import numpy as np
 from numba import njit, prange
 
 from simplestruct.metrics.hd import find_distance_for_coord
-from simplestruct.filters.edge_generator import get_edge_of_structure
+from simplestruct.filters import generate_edge_of_structure
 
 
 def get_spacing_as_np_array(structure: sitk.Image):
@@ -67,7 +67,7 @@ def isometric_expand_3d(structure: sitk.Image, mm_radius: float):
     spacing = get_spacing_as_np_array(structure)
     struct_arr = sitk.GetArrayFromImage(structure)
     ref_coords = np.argwhere(struct_arr)
-    edge_coords = np.argwhere(get_edge_of_structure(struct_arr))
+    edge_coords = np.argwhere(generate_edge_of_structure(struct_arr))
     edge_coords = np.insert(edge_coords, 0, 0, axis=1)  # Mock distance
     new_coords = _yield_new_coords(edge_coords, 10)  # Mock margin to make sure new_coords are generated
     _expand_volume(structure=struct_arr,

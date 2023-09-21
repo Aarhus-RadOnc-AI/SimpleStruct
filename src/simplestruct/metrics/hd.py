@@ -2,7 +2,7 @@ import SimpleITK as sitk
 import numpy as np
 from numba import njit
 
-from simplestruct.filters.edge_generator import get_edge_of_structure
+from simplestruct.filters import generate_edge_of_structure
 
 @njit
 def find_distance_for_coord(coord: np.ndarray, other_coords: np.ndarray, spacing_array: np.ndarray):
@@ -29,8 +29,8 @@ class HD:
     def __init__(self, reference_image: sitk.Image, other_image: sitk.Image, label_int=(1, 1)):
         self.ref_img = reference_image
         self.other_img = other_image
-        self.ref_arr = get_edge_of_structure(sitk.GetArrayFromImage(self.ref_img), label_int[0])
-        self.other_arr = get_edge_of_structure(sitk.GetArrayFromImage(self.other_img), label_int[1])
+        self.ref_arr = generate_edge_of_structure(sitk.GetArrayFromImage(self.ref_img), label_int[0])
+        self.other_arr = generate_edge_of_structure(sitk.GetArrayFromImage(self.other_img), label_int[1])
         self.spacing_arr = np.array(self.ref_img.GetSpacing())[-1::-1]
 
         self.distance_matrix_ref_to_other = None

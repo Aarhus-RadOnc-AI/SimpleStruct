@@ -1,4 +1,6 @@
 import copy
+import logging
+import os
 from typing import List, Dict, Tuple
 
 import SimpleITK as sitk
@@ -70,11 +72,13 @@ def resample_structures_to_common_origin(structures: Dict[str, sitk.Image], labe
     :param label_int: The integer, which
     :return: Dict of name, resampled_structure
     """
+    logging.info(f"Resampling: {structures.keys()} - using label integer: {label_int}")
     # Find the max bounding box needed to encompass all contours in ss
     origin, shape = get_extreme_origin_and_size_of_structures(list(structures.values()), label_int=label_int)
 
     resampled_structures = {}  # Container for resampled structures
     for name, structure in structures.items():
+        logging.info(f"working on {name}")
         resampled_structures[name] = resample_structure_to_origin_and_shape(contour=structure, origin=origin, shape=shape)
 
     return resampled_structures
