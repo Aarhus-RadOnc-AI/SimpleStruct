@@ -9,7 +9,7 @@ class HausdorffMap:
         self.other_contours = other_contours
         self.hausdorff_map = None
 
-    def _generate_structure_hausdorff_map(self):
+    def execute(self):
         """
         Returns a np.ndarray, where columns are Z, Y, X coordinates in index 0:3 and 3: is the HD for the given coordinate
         for all "other_contours".
@@ -23,4 +23,9 @@ class HausdorffMap:
             else:
                 arr = np.insert(arr, -1, hd.get_distance_matrix_ref_to_other()[-1, :], axis=0)
 
-        return arr
+        self.hausdorff_map = arr
+
+def generate_hausdorff_map(reference_structure: sitk.Image, other_contours: List[sitk.Image]) -> HausdorffMap:
+    hd_map = HausdorffMap(reference_structure=reference_structure, other_contours=other_contours)
+    hd_map.execute()
+    return hd_map
