@@ -1,9 +1,9 @@
 import numpy as np
 
-from simplestruct.utils.njit_wrapper import njit_if_loaded
+from simplestruct.utils.njit_wrapper import njit
 
 
-@njit_if_loaded
+@njit
 def generate_edge_of_structure(structure: np.ndarray, use_3d: bool = False) -> np.ndarray:
     """
     Is binarized, so 0 is background and 1-n is contour. Array is ordered [z, y, x]

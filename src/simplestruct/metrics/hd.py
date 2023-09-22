@@ -2,10 +2,10 @@ import SimpleITK as sitk
 import numpy as np
 
 from simplestruct.filters import generate_edge_of_structure
-from simplestruct.utils.njit_wrapper import njit_if_loaded
+from simplestruct.utils.njit_wrapper import njit
 
 
-@njit_if_loaded
+@njit
 def find_distance_for_coord(coord: np.ndarray, other_coords: np.ndarray, spacing_array: np.ndarray):
     vectors = np.zeros(other_coords.shape, dtype=float)
     vectors[:, 0] = other_coords[:, 0] - coord[0]

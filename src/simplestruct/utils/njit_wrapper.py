@@ -1,16 +1,4 @@
-import functools
-import sys
-
-from numba import njit
-
 try:
-    import numba
-
+    from numba import njit
 except ImportError:
-    pass
-
-def njit_if_loaded(*args, **kwargs):
-    if "numba" in sys.modules:
-        return njit(*args, **kwargs)
-    else:
-        return lambda x: x
+    from ._shim import njit

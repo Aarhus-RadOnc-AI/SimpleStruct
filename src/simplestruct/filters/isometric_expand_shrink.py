@@ -5,14 +5,14 @@ from numba import njit, prange
 from simplestruct.metrics.hd import find_distance_for_coord
 
 from simplestruct.filters import generate_edge_of_structure
-from simplestruct.utils.njit_wrapper import njit_if_loaded
+from simplestruct.utils.njit_wrapper import njit
 
 
 def get_spacing_as_np_array(structure: sitk.Image):
     return np.array(list(reversed(structure.GetSpacing())))
 
 
-@njit_if_loaded
+@njit
 def _yield_new_coords(coords: np.ndarray, mm_radius: float):
     """
     Yields only if coord dist is below mm_radius
@@ -35,7 +35,7 @@ def _yield_new_coords(coords: np.ndarray, mm_radius: float):
     return arr
 
 
-@njit_if_loaded(parallel=True)
+@njit(parallel=True)
 def _expand_volume(structure: np.ndarray, ref_coords, coords, spacing, mm_radius):
     dist_coords = np.empty((len(coords), 4))
     dist_coords[:, 1:] = coords
