@@ -18,6 +18,8 @@ class SurfaceDice:
         self.distances = self.hd.get_distances(undirected=False)
 
     def get_surface_dice(self, tolerance: float = 1):
+        if self.distances is None:
+            self.execute()
         under_tolerance = self.distances <= tolerance
         surface_dice = np.count_nonzero(under_tolerance) / self.distances.shape[0]
         return surface_dice

@@ -31,6 +31,8 @@ class AxisDiff:
                              "max": ax_other_max - ax_ref_max}
 
     def get_axis_difference(self, axis = None):
+        if len(self.diffs) == 0:
+            self.execute()
         if not axis:
             return self.diffs
         else:

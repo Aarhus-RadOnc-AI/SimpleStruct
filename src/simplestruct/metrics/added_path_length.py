@@ -25,6 +25,8 @@ class APL:
         self.gt_edge = None
         self.other_edge = None
     def execute(self):
+        if self.gt_edge is None:
+            self.execute()
         self.gt_edge = generate_edge_of_structure(self.reference_structure)
         self.other_edge = generate_edge_of_structure(self.other_structure)
 

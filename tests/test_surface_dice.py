@@ -39,6 +39,7 @@ class TestSurfaceDice(unittest.TestCase):
         ref_img = sitk.GetImageFromArray(ref)
         pred_img = sitk.GetImageFromArray(pred)
         surface_dice = SurfaceDice(ref_img, pred_img)
+        surface_dice.execute()
         self.assertEqual(surface_dice.get_surface_dice(0.5), 0.875)
         self.assertEqual(surface_dice.get_surface_dice(1), 1)
         self.assertEqual(surface_dice.get_surface_dice(3), 1)

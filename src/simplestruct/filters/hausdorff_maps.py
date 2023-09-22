@@ -15,17 +15,17 @@ class HausdorffMap:
         for all "other_contours".
         Assumes that the contour integers are 1, so binarize your images beforehand.
         """
-        arr = None
+
+        self.hausdorff_map = None
         for other_contour in self.other_contours:
-            hd = HD(reference_image=self.reference_structure, other_image=other_contour, label_int=(1, 1))
-            if arr is None:
-                arr = hd.get_distance_matrix_ref_to_other()
+            hd = HD(reference_image=self.reference_structure, other_image=other_contour)
+            if self.hausdorff_map is None:
+                self.hausdorff_map = hd.get_distance_matrix_ref_to_other()
             else:
-                arr = np.insert(arr, -1, hd.get_distance_matrix_ref_to_other()[-1, :], axis=0)
+                self.hausdorff_map = np.insert(self.hausdorff_map, -1, hd.get_distance_matrix_ref_to_other()[:, -1], axis=1)
 
-        self.hausdorff_map = arr
+    def get_hausdorff_map(self):
+        if self.hausdorff_map is None:
+            self.execute()
+        return self.hausdorff_map
 
-def generate_hausdorff_map(reference_structure: sitk.Image, other_contours: List[sitk.Image]) -> HausdorffMap:
-    hd_map = HausdorffMap(reference_structure=reference_structure, other_contours=other_contours)
-    hd_map.execute()
-    return hd_map
