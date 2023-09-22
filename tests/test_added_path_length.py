@@ -1,17 +1,12 @@
 import unittest
 
-import SimpleITK as sitk
 import numpy as np
 
-from simplestruct.metrics.surface_dice import SurfaceDice
-from tests.utils import load_ref_and_pred
+from simplestruct.metrics.added_path_length import apl
 
 
-class TestSurfaceDice(unittest.TestCase):
-    def setUp(self) -> None:
-        self.ref_img, self.other_img = load_ref_and_pred()
-
-    def test_surface_dice(self):
+class TestAddedPathLength(unittest.TestCase):
+    def test_added_path_length(self):
         ref = np.array([
             [[0, 0, 0, 0, 0, 0],
             [0, 0, 1, 1, 1, 0],
@@ -36,12 +31,12 @@ class TestSurfaceDice(unittest.TestCase):
              [0, 1, 1, 1, 1, 0],
              [0, 0, 0, 0, 0, 0]]
         ])
-        ref_img = sitk.GetImageFromArray(ref)
-        pred_img = sitk.GetImageFromArray(pred)
-        surface_dice = SurfaceDice(ref_img, pred_img)
-        self.assertEqual(surface_dice.get_surface_dice(0.5), 0.875)
-        self.assertEqual(surface_dice.get_surface_dice(1), 1)
-        self.assertEqual(surface_dice.get_surface_dice(3), 1)
+
+        norm_apl = apl(ref, pred, True)
+        self.assertEqual(norm_apl, 0.3)
+
+        not_norm_apl = apl(ref, pred, False)
+        self.assertEqual(not_norm_apl, 6)
 
 
 if __name__ == '__main__':

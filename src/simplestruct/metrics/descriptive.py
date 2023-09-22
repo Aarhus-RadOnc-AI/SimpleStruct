@@ -2,7 +2,7 @@ from typing import Dict
 
 import SimpleITK as sitk
 
-def statistics(image: sitk.Image) -> Dict:
+def descriptive_stats(image: sitk.Image) -> Dict:
     f = sitk.LabelShapeStatisticsImageFilter()
     img = image != 0
     f.Execute(img)
