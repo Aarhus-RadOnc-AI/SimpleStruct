@@ -1,6 +1,5 @@
 import functools
 from multiprocessing.pool import ThreadPool
-
 from simplestruct.metrics.hd import HD
 import SimpleITK as sitk
 from typing import List
@@ -43,11 +42,12 @@ class HausdorffMap:
 
     def get_summarized_hausdorff_map(self, func=None):
         """
-        Summarize hausdorff map with an arbitrary (numpy) function. Default is np.mean(arr, axis = 1).
+        Summarize hausdorff map with an arbitrary (numpy) function. Default is np.mean(arr, axis = 1)
         """
         if not func:
             func = functools.partial(np.mean, axis=1)
         arr = np.empty([self.hausdorff_map.shape[0], 4])
         arr[:, 3] = func(self.hausdorff_map[:, 3:])
+        
         return arr
 
