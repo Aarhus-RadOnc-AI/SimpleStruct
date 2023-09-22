@@ -13,6 +13,7 @@ class SurfaceDice:
                  ):
         self.hd = HD(reference_image=reference_image, other_image=other_image)
         self.distances = None
+
     def execute(self):
         self.distances = self.hd.get_distances(undirected=False)
 
