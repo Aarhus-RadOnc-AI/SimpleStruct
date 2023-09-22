@@ -20,7 +20,6 @@ class HausdorffMap:
         Assumes that the contour integers are 1, so binarize your images beforehand.
         """
 
-        self.hausdorff_map = None
         def process(ref, other):
             hd = HD(reference_image=ref, other_image=other)
             return hd.get_distance_matrix_ref_to_other()
@@ -30,6 +29,7 @@ class HausdorffMap:
         tp.close()
         tp.join()
 
+        self.hausdorff_map = None
         for map in maps:
             if self.hausdorff_map is None:
                 self.hausdorff_map = map
