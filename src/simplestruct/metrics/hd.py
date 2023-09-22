@@ -1,10 +1,11 @@
 import SimpleITK as sitk
 import numpy as np
-from numba import njit
 
 from simplestruct.filters import generate_edge_of_structure
+from simplestruct.utils.njit_wrapper import njit_if_loaded
 
-@njit
+
+@njit_if_loaded
 def find_distance_for_coord(coord: np.ndarray, other_coords: np.ndarray, spacing_array: np.ndarray):
     vectors = np.zeros(other_coords.shape, dtype=float)
     vectors[:, 0] = other_coords[:, 0] - coord[0]
@@ -26,11 +27,14 @@ def find_distance_for_coord(coord: np.ndarray, other_coords: np.ndarray, spacing
 
 
 class HD:
-    def __init__(self, reference_image: sitk.Image, other_image: sitk.Image, label_int=(1, 1)):
+    def __init__(self, reference_image: sitk.Image, other_image: sitk.Image):
+        """
+        Contours will be cast to bool
+        """
         self.ref_img = reference_image
         self.other_img = other_image
-        self.ref_arr = generate_edge_of_structure(sitk.GetArrayFromImage(self.ref_img), label_int[0])
-        self.other_arr = generate_edge_of_structure(sitk.GetArrayFromImage(self.other_img), label_int[1])
+        self.ref_arr = generate_edge_of_structure(sitk.GetArrayFromImage(self.ref_img))
+        self.other_arr = generate_edge_of_structure(sitk.GetArrayFromImage(self.other_img))
         self.spacing_arr = np.array(self.ref_img.GetSpacing())[-1::-1]
 
         self.distance_matrix_ref_to_other = None
