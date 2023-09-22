@@ -2,7 +2,7 @@ import unittest
 
 import numpy as np
 
-from simplestruct.metrics.added_path_length import apl
+from simplestruct.metrics.added_path_length import APL
 
 
 class TestAddedPathLength(unittest.TestCase):
@@ -32,11 +32,10 @@ class TestAddedPathLength(unittest.TestCase):
              [0, 0, 0, 0, 0, 0]]
         ])
 
-        norm_apl = apl(ref, pred, True)
-        self.assertEqual(norm_apl, 0.3)
-
-        not_norm_apl = apl(ref, pred, False)
-        self.assertEqual(not_norm_apl, 6)
+        apl_fil = APL(ref, pred)
+        apl_fil.execute()
+        self.assertEqual(apl_fil.get_apl(), 0.3)
+        self.assertEqual(apl_fil.get_apl(normalized=False), 6)
 
 
 if __name__ == '__main__':
