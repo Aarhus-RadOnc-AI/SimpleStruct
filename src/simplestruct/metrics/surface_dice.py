@@ -12,10 +12,11 @@ class SurfaceDice:
                  other_image: sitk.Image,
                  ):
         self.hd = HD(reference_image=reference_image, other_image=other_image)
+        self.distances = None
+    def execute(self):
+        self.distances = self.hd.get_distances(undirected=False)
 
-    def get_surface_dice(self,
-                         tolerance: float = 1):
-        distances = self.hd.get_distances(undirected=False)
-        under_tolerance = distances <= tolerance
-        surface_dice = np.count_nonzero(under_tolerance) / distances.shape[0]
+    def get_surface_dice(self, tolerance: float = 1):
+        under_tolerance = self.distances <= tolerance
+        surface_dice = np.count_nonzero(under_tolerance) / self.distances.shape[0]
         return surface_dice
