@@ -1,10 +1,16 @@
+from typing import Tuple
+
 import SimpleITK as sitk
+import numpy as np
 
-def check_z_overlap(other_image: sitk.Image, int1: int, int2: int):
+
+def count_axis_difference(ref_image: sitk.Image, other_image: sitk.Image, axis=0) -> Tuple[int, int]:
+    ref_arr = sitk.GetArrayFromImage(ref_image)
     other_arr = sitk.GetArrayFromImage(other_image)
-    for z in range(other_arr.shape[0]):
-        if int1 in other_arr[z, :, :] and int2 in other_arr[z, :, :]:
-            return True
-    else:
-        return False
+    z_ref = np.any(ref_arr, axis=axis)
+    z_other = np.any(other_arr, axis=axis)
 
+    z_ref_min, z_ref_max = np.where(z_ref)[0][[0, -1]]
+    z_other_min, z_other_max = np.where(z_other)[0][[0, -1]]
+
+    return z_other_min - z_other_min, z_other_max - z_ref_max
