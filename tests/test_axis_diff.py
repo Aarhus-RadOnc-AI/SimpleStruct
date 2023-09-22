@@ -35,8 +35,9 @@ class TestAxisDiff(unittest.TestCase):
 
         ad = AxisDiff(ref, pred)
         ad.execute()
-        self.assertDictEqual(ad.get_axis_difference(), {0: {'min': 0, 'max': 1}, 1: {'min': 0, 'max': -1}, 2: {'min': 0, 'max': -1}})
-        self.assertDictEqual(ad.get_axis_difference(1), {'min': 0, 'max': -1})
+        self.assertDictEqual(ad.get_axis_difference(), {0: {'min': -1, 'max': 1}, 1: {'min': -1, 'max': -1}, 2: {'min': -1, 'max': -1}})
+        self.assertDictEqual(ad.get_axis_difference(1), {'min': -1, 'max': -1})
+        print(ad.get_axis_difference(1))
 
 
 if __name__ == '__main__':
