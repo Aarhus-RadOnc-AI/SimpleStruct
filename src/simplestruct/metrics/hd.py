@@ -33,8 +33,8 @@ class HD:
         """
         self.reference_image = reference_image
         self.other_image = other_image
-        self.ref_arr = generate_edge_of_structure(sitk.GetArrayFromImage(self.reference_image))
-        self.other_arr = generate_edge_of_structure(sitk.GetArrayFromImage(self.other_image))
+        self.ref_arr = generate_edge_of_structure(sitk.GetArrayFromImage(self.reference_image), use_2d=False)
+        self.other_arr = generate_edge_of_structure(sitk.GetArrayFromImage(self.other_image), use_2d=False)
         self.spacing_arr = np.array(self.reference_image.GetSpacing())[-1::-1]
 
         self.distance_matrix_ref_to_other = None
