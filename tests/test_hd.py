@@ -4,7 +4,7 @@ import unittest
 import SimpleITK as sitk
 
 from simplestruct.metrics.hd import HD
-from tests.utils import get_test_dicom, load_ref_and_pred
+from tests.utils import load_ref_and_pred
 
 
 class TestHd(unittest.TestCase):

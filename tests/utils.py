@@ -24,7 +24,7 @@ def load_ref_and_pred():
         ref_img = sitk.ReadImage(reference_path)
         other_img = sitk.ReadImage(other_path)
     except:
-        test_data = "./tests/data/"
+        test_data = "tests/data/"
         os.makedirs(test_data)
         get_test_dicom(path=test_data,
                        url="https://xnat.bmia.nl/REST/projects/stwstrategyhn1/subjects/BMIAXNAT_S09203/experiments/BMIAXNAT_E62311/scans/1/files?format=zip")
