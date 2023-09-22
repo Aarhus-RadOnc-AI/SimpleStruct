@@ -5,6 +5,7 @@ from numba import njit, prange
 from simplestruct.metrics.hd import find_distance_for_coord
 
 from simplestruct.filters import generate_edge_of_structure
+from simplestruct.utils.njit_wrapper import njit
 
 
 def get_spacing_as_np_array(structure: sitk.Image):

@@ -10,9 +10,8 @@ class SurfaceDice:
     def __init__(self,
                  reference_image: sitk.Image,
                  other_image: sitk.Image,
-                 label_int: Tuple = (1, 1),
                  ):
-        self.hd = HD(reference_image=reference_image, other_image=other_image, label_int=label_int)
+        self.hd = HD(reference_image=reference_image, other_image=other_image)
 
     def get_surface_dice(self,
                          tolerance: float = 1):

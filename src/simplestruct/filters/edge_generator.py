@@ -1,17 +1,17 @@
 import numpy as np
-from numba import njit
+
+from simplestruct.utils.njit_wrapper import njit
 
 
 @njit
-def generate_edge_of_structure(structure: np.ndarray, label_int: int = 1, use_3d: bool = False) -> np.ndarray:
+def generate_edge_of_structure(structure: np.ndarray, use_3d: bool = False) -> np.ndarray:
     """
-    Mask must only contain 0 for background and 1 for mask. Array must be ordered [z, y, x]
-    Input structure must be in np.ndarray, else njit won't work.
+    Is binarized, so 0 is background and 1-n is contour. Array is ordered [z, y, x]
     :param mask:
     :return:
     """
 
-    mask = (structure == label_int)
+    mask = structure != 0
     edge = np.zeros_like(mask)
     for z in range(0, mask.shape[0]):
         for y in range(0, mask.shape[1]):

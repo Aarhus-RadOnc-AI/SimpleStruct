@@ -111,4 +111,5 @@ ENV/
 *.jpg
 *.jpeg
 *.model
+tests/data/*
 
