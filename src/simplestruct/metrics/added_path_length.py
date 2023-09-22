@@ -4,7 +4,8 @@ import numpy as np
 from simplestruct.filters import generate_edge_of_structure
 import SimpleITK as sitk
 
-from simplestruct.utils.type_checker import is_image
+from simplestruct.utils.type_functions import is_image, load_as_np_array
+
 
 class APL:
 
@@ -12,20 +13,13 @@ class APL:
         """
         It must be possible to cast contour images as boolean arrays - only 0 and one other label should be present.
         """
-        if is_image(reference_structure):
-            self.reference_structure = sitk.GetArrayFromImage(reference_structure)
-        else:
-            self.reference_structure = reference_structure
-
-        if is_image(other_structure):
-            self.other_structure = sitk.GetArrayFromImage(other_structure)
-        else:
-            self.other_structure = other_structure
+        self.reference_structure = load_as_np_array(reference_structure)
+        self.other_structure = load_as_np_array(other_structure)
 
         self.gt_edge = None
         self.other_edge = None
-    def execute(self):
 
+    def execute(self):
         self.gt_edge = generate_edge_of_structure(self.reference_structure)
         self.other_edge = generate_edge_of_structure(self.other_structure)
 

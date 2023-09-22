@@ -31,11 +31,11 @@ class HD:
         """
         Contours will be cast to bool
         """
-        self.ref_img = reference_image
-        self.other_img = other_image
-        self.ref_arr = generate_edge_of_structure(sitk.GetArrayFromImage(self.ref_img))
-        self.other_arr = generate_edge_of_structure(sitk.GetArrayFromImage(self.other_img))
-        self.spacing_arr = np.array(self.ref_img.GetSpacing())[-1::-1]
+        self.reference_image = reference_image
+        self.other_image = other_image
+        self.ref_arr = generate_edge_of_structure(sitk.GetArrayFromImage(self.reference_image))
+        self.other_arr = generate_edge_of_structure(sitk.GetArrayFromImage(self.other_image))
+        self.spacing_arr = np.array(self.reference_image.GetSpacing())[-1::-1]
 
         self.distance_matrix_ref_to_other = None
         self.distance_matrix_other_to_ref = None
@@ -57,21 +57,21 @@ class HD:
 
         return distance_matrix
 
-    def _generate_distance_matrices(self, undirected=True):
+    def execute(self, undirected=True):
         if self.distance_matrix_ref_to_other is None:
             self.distance_matrix_ref_to_other = self._calculate_distance_matrix(self.ref_arr, self.other_arr)
         if undirected and self.distance_matrix_other_to_ref is None:
             self.distance_matrix_other_to_ref = self._calculate_distance_matrix(self.other_arr, self.ref_arr)
 
     def get_distances(self, undirected=True):
-        self._generate_distance_matrices(undirected=undirected)
+        self.execute(undirected=undirected)
         if undirected:
             return np.concatenate([self.distance_matrix_ref_to_other[:, 3], self.distance_matrix_other_to_ref[:, 3]])
         else:
             return self.distance_matrix_ref_to_other[:, 3]
 
     def get_distance_matrix_ref_to_other(self):
-        self._generate_distance_matrices(undirected=False)
+        self.execute(undirected=False)
         return self.distance_matrix_ref_to_other
 
     def func_on_min_distances(self, func, undirected=True):
