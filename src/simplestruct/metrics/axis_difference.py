@@ -3,20 +3,14 @@ from typing import Tuple, Union
 import SimpleITK as sitk
 import numpy as np
 
-from simplestruct.utils.type_checker import is_image
+from simplestruct.utils.type_functions import is_image, load_as_np_array
 
 
 class AxisDiff:
     def __init__(self, reference_structure: Union[sitk.Image, np.ndarray], other_structure: [sitk.Image, np.ndarray]):
-        if is_image(reference_structure):
-            self.reference_structure = sitk.GetArrayFromImage(reference_structure)
-        else:
-            self.reference_structure = reference_structure
+        self.reference_structure = load_as_np_array(reference_structure)
+        self.other_structure = load_as_np_array(other_structure)
 
-        if is_image(other_structure):
-            self.other_structure = sitk.GetArrayFromImage(other_structure)
-        else:
-            self.other_structure = other_structure
         self.diffs = {}
     def execute(self):
 

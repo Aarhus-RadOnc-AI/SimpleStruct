@@ -3,7 +3,7 @@ from typing import List, Union
 import SimpleITK as sitk
 import numpy as np
 
-from simplestruct.utils.type_checker import is_image
+from simplestruct.utils.type_functions import is_image
 
 
 def _sum_arrays(structures: List[np.ndarray]) -> np.ndarray:

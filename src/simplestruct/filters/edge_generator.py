@@ -1,7 +1,10 @@
+from typing import Union
+
 import numpy as np
 
 from simplestruct.utils.njit_wrapper import njit
-
+from simplestruct.utils.type_functions import load_as_np_array
+import SimpleITK as sitk
 
 @njit
 def generate_edge_of_structure(structure: np.ndarray, use_2d: bool = True) -> np.ndarray:

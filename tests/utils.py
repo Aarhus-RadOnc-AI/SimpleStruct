@@ -1,7 +1,10 @@
 import os
 import zipfile
 from io import BytesIO
+from typing import Union
+
 import SimpleITK as sitk
+import numpy as np
 import requests
 
 
@@ -11,6 +14,7 @@ def get_test_dicom(path, url):
     zf = zipfile.ZipFile(file=res_io, compression=zipfile.ZIP_DEFLATED)
     zf.extractall(path)
     return path
+
 
 def load_ref_and_pred():
     reference_path = "tests/data/HN1004_20190403_CT/scans/1-unknown/resources/NIFTI/files/mask_GTV-1.nii.gz"
