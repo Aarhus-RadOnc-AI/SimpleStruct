@@ -26,3 +26,7 @@ def generate_edge_of_structure(structure: np.ndarray, use_3d: bool = False) -> n
                         edge[z, y, x] = mask[z, y, x]
     return edge
 
+@njit
+def count_edge_of_structure(structure: np.ndarray, use_3d: bool = False) -> int:
+    edge = generate_edge_of_structure(structure, use_3d)
+    return np.count_nonzero(edge)
