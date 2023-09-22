@@ -21,7 +21,7 @@ class AxisDiff:
             ax_ref_min, ax_ref_max = np.where(ax_ref)[0][[0, -1]]
             ax_other_min, ax_other_max = np.where(ax_other)[0][[0, -1]]
 
-            self.diffs[i] = {"min": ax_other_min - ax_other_min,
+            self.diffs[i] = {"min": ax_other_min - ax_ref_min,
                              "max": ax_other_max - ax_ref_max}
 
     def get_axis_difference(self, axis = None):

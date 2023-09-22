@@ -12,8 +12,9 @@ class TestHausdorffMap(unittest.TestCase):
     def test_hausdorff_map(self):
         HDMap = HausdorffMap(self.ref_img, [self.other_img, self.other_img, self.other_img])
         HDMap.execute()
-        print(HDMap.get_hausdorff_map())
         self.assertEqual(6, HDMap.get_hausdorff_map().shape[1])
+        self.assertEqual(4, HDMap.get_summarized_hausdorff_map().shape[1])
+
 
 if __name__ == '__main__':
     unittest.main()
